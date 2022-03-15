@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1647322731 source:c:\users\laptop\documents\codeblock\helloword\abcd\main.c
+	<stdio.h>
+	<string.h>
+
+1647324837 source:c:\users\laptop\documents\codeblock\helloword\abcd\th3.c
+	<stdio.h>
+	<stdlib.h>
+
