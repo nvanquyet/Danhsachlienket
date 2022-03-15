@@ -74,12 +74,12 @@ int main()
             printf("\nNhap so cot ma tran B: ");
             scanf("%d", &m);
             a = (int **)malloc(n * sizeof(int *));
-            for (int i = 0; i < p; i++)
+            for (int i = 0; i < n; i++)
             {
                 *(a + i) = (int *)malloc(p * sizeof(int));
             }
             b = (int **)malloc(p * sizeof(int *));
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < p; i++)
             {
                 *(b + i) = (int *)malloc(m * sizeof(int));
             }

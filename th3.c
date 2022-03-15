@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
+#include <stdbool.h>
 struct Sinhvien
 {
     int stt;
@@ -24,6 +25,11 @@ struct LIST
 };
 typedef struct LIST LIST;
 
+void createLIST(LIST *list)
+{
+    list->pHead = NULL;
+    list->pTail = NULL;
+}
 NODE *createNode(Sinhvien sv)
 {
     NODE *temp;
@@ -68,6 +74,7 @@ void input(LIST *list, int i)
 {
     Sinhvien sv = createSV(i);
     Add(list, createNode(sv));
+    updateSTT(list);
 }
 
 void output(LIST *list)
@@ -136,8 +143,10 @@ void insertStudent(int vitri, LIST *list, int stt)
 void deleteSv(LIST *list, char name[])
 {
     NODE *temp = list->pHead;
-    if (strcmp(temp->data.name,name) == 0)
+    bool exits = true;
+    if (stricmp(temp->data.name, name) == 0)
     {
+        exits = false;
         list->pTail = temp->next;
         list->pHead = temp->next;
     }
@@ -145,8 +154,9 @@ void deleteSv(LIST *list, char name[])
     {
         while (temp != NULL)
         {
-            if (strcmp(temp->next->data.name,name) == 0)
+            if (strcmp(temp->next->data.name, name) == 0)
             {
+                exits = false;
                 temp->next = temp->next->next;
                 break;
             }
@@ -154,6 +164,10 @@ void deleteSv(LIST *list, char name[])
         }
     }
     updateSTT(list);
+    if (exits)
+    {
+        printf("\nKhong tim thay sinh vien vui long thu lai! ");
+    }
 }
 
 void menu()
@@ -162,25 +176,31 @@ void menu()
     printf("2. Hien thi danh sach sinh vien\n");
     printf("3. Chen them sinh vien vao cuoi danh sach\n");
     printf("4. Chen them sinh vien\n");
-    printf("5. Xoa mot sinh vien(theo stt)\n");
-    printf("6. Sua mot sinh vien(theo stt)\n");
+    printf("5. Xoa mot sinh vien(theo ten)\n");
+    printf("6. Sua mot sinh vien(theo ten)\n");
     printf("7. Ket thuc\n");
 }
 
-void suaSv(LIST *list,char name[])
+void suaSv(LIST *list, char name[])
 {
     NODE *temp = list->pHead;
+    bool exits = true;
     while (temp != NULL)
     {
-        if (strcmp(temp->data.name,name) == 0)
+        if (stricmp(temp->data.name, name) == 0)
         {
+            exits = false;
             Sinhvien sv = createSV(temp->data.stt);
-            strcpy(temp->data.name,sv.name);
+            strcpy(temp->data.name, sv.name);
             temp->data.age = sv.age;
             temp->data.diem_tb = sv.diem_tb;
-            break;
+            return;
         }
         temp = temp->next;
+    }
+    if (exits)
+    {
+        printf("\nKhong tim thay sinh vien vui long thu lai! ");
     }
 }
 
@@ -189,8 +209,6 @@ int main()
     int stt = 0;
     int luachon = 0;
     LIST *list = (LIST *)malloc(sizeof(LIST));
-    list->pHead = NULL;
-    list->pTail = NULL;
     do
     {
         menu();
@@ -200,6 +218,7 @@ int main()
         {
         case 1:
         {
+            createLIST(list);
             printf("Tao moi danh sach thanh cong!\n");
             break;
         }
@@ -247,6 +266,6 @@ int main()
             return 0;
         }
         }
-    } while (luachon != 6);
+    } while (luachon != 7);
     return 0;
 }
